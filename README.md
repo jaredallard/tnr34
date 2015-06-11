@@ -1,12 +1,9 @@
 tnr34
 =====
 
-Totally Not Rule34 - A Simple, Fapable javascript rule34.paheal.net viewer.
+Totally Not Rule34 - A rule34 viewer (rule34.paheal.net)
 
-I have no idea why I made this.
+Please be 18+ and use this, even though it appears through this application all images are downloaded over your connection.
 
-Requires CROS to be disabled-- until I use an iframe.
 
-Node-webkit can be used to package it, with chromium-args: "--disable-web-security"
-
-or, chrome --disable-web-security and run it locally.
+Try it out! [tnr34 - live](http://jaredallard.me/tnr34)

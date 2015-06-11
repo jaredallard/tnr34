@@ -1,78 +1,48 @@
 <!DOCTYPE html>
 <head>
-	<title>Totally not R34</title>
+	<title>tnr</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/functions.js"></script>
-</head>
-<style>
-.image {
-	width:  100%;
-	height: auto;
-	margin-bottom:30px;
-}
-#footer {
-   position:fixed;
-   left:0px;
-   bottom:0px;
-   width:100%;
-   margin-bottom:0px;
-   text-align:center;
-   background: #f2f2f2;
-   border-top: 1px solid #e4e4e4;
-   line-height: 40px;
-   min-width: 980px;
-}
 
-a,
-a:hover,
-#footer span {
-	color: #777;
-}
-</style>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/main.css" />
+</head>
+
 <html lang='en'>
 	<body>
 		<div class="container">
 			<br />
-			<div style='text-align:center;'><a onclick='resetPage();'><img src="http://rule34.paheal.net/themes/rule34v2/rule34_logo_top.png"></a></div>
-			<br />
+			<div class="logo"><a onclick='resetPage();'><img src="img/logo.png"></a></div>
+
 			<div id='form-thing' class="form-group">
 				<div class="input-group">
-				    <div class="input-group-addon">Search:</div>
-				    <input id='search' class="form-control" type="text" placeholder="Thing...">
+				    <div class="input-group-addon">Search</div>
+				    <input id='search' class="form-control" type="text" placeholder="Search Term" disabled>
 			 	</div>
 			</div>
+
 			<br />
 			<div style='text-align:center'>
 				<button id='search-btn' class='btn btn-success' onclick='getImages($("#search").val(), 1)'>Submit</button>
 				&nbsp;
-				<button id='clear-btn' class='btn btn-danger' onclick='resetPage();'>Clear</button>
+				<button id='clear-btn' class='btn btn-default' onclick='resetPage();'>Clear</button>
 			</div>
 
-			<br />
-			<div style='display:none;' id='images'>
-			</div>
-			<div style='display:none;' id='final'>
-			</div>
+			<!-- images holder -->
+			<div id='final' style='display:none;'></div>
 			<div style='display:none;' id='nav'></div>
+
 			<div style='display:none;text-align:center;' id='loader'>
 				<img src='img/712.GIF'>
 			</div>
-			<br /><br /><br />
+
 			<div id='footer'>
-				<a href='http://rule34.paheal.net/' style='float:left;margin-left:30px;'>Paheal</a> <span style='text-align:center'>Images are copyright their respective owners</span> <a href='http://rdashinc.github.com/' style='float:right;margin-right:30px;'>RDashINC</a>
+				<a href='http://rule34.paheal.net/' style='float:left;margin-left:30px;'>Paheal</a> <a href='http://jaredallard.me/' style='float:right;margin-right:30px;'>jaredallard</a>
 			</div>
 		</div>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/functions.js"></script>
 	</body>
-	<script>
-	$("#search").keypress(function(e) {
-	    if(e.which == 13) {
-	        getImages($("#search").val(), 1);
-	    }
-	});
-	</script>
 </html>

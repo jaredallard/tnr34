@@ -1,75 +1,73 @@
 function getImages(search, page) {
 	loader();
-	if(page>1) {
-		console.log("Append")
-		$("#nav").hide();
-	}
-	search = search.replace(" ", "_")
-	console.log(search);
-	console.log("making Request");
-	var data = $.ajax({
-		url: "http://rule34.paheal.net/post/list/"+search+"/"+page,
-		success: function(html) {
-      				strReturn = html;
-      				return strReturn;
-    	},
-		async: false
-	});
-	data = data.responseText;
-	data = stripScripts(data);
-	console.log("Putting html into #images")
-	/** #12 fix **/
-	window.interval = setInterval(function() {
-		getImagesFinal();
-	}, 3500);
-	console.log("Gen Nav");
-	$("#nav").html("<div style='text-align:center;margin-top:20px;width:100%'><button class='btn btn-default btn-lg btn-block' onclick='getImages($(\"#search\").val(), "+(page+1)+")'>Next</button></div>");
-	console.log("Gen Images");
 
-	/** For some reason, this function below stops any scripts, refer to the fix #12 **/
-	$("#images").html(data);
+	/* replace spaces with dashes */
+	search = search.replace(" ", "_")
+
+	console.log("Page: "+page)
+	console.log("Communicating with the API.")
+
+	$.get("http://192.241.220.134:3000/search/"+search+"/"+page, function(data) {
+		if (data.success !== true) {
+			$("#final").html("<h2 class='error'>"+data.message+"</h2>");
+			$("#nav").html("<div class='nav-wrapper'><button class='btn btn-default btn-lg btn-block' onclick='resetPage()'>Back</button></div>");
+		}
+
+		if (data.images.length == 0) {
+			$("#final").html("<h2 class='error'>No results found.</h2>");
+			$("#nav").html("<div class='nav-wrapper'><button class='btn btn-default btn-lg btn-block' onclick='resetPage()'>Back</button></div>");
+		} else {
+			console.log("Got "+data.images.length+" images.")
+
+			data.images.forEach(function(v, i) {
+				$("#final").append("<img class='image' src='"+v+"'>");
+			});
+
+			$("#nav").html("<div class='nav-wrapper'><button class='btn btn-default btn-lg btn-block' onclick='nextPage()'>Next</button></div>")
+
+			/* for next search */
+			window.psearch = search
+			window.ppage = page+1
+		}
+
+		/* on load even */
+		$("#loader").attr("style", "display:none;text-align:center;");
+		$("#final").show();
+		$("#nav").show();
+	});
 }
 
-  function stripScripts(s) {
-    var div = document.createElement('div');
-    div.innerHTML = s;
-    var scripts = div.getElementsByTagName('script');
-    var i = scripts.length;
-    while (i--) {
-      scripts[i].parentNode.removeChild(scripts[i]);
-    }
-    return div.innerHTML;
-  }
+function nextPage() {
+	getImages(window.psearch, window.ppage)
+}
 
 function resetPage() {
-	$("#final").html(" ");
+	window.psearch = undefined;
+	window.ppage   = undefined;
+
+	$("#final").html("");
 	$("#form-thing").show();
 	$("#search-btn").show();
 	$("#search").val("");
 	$("#clear-btn").show();
 	$("#nav").hide();
-	$("#nav").html(" ");
+	$("#nav").html("");
 }
 
 function loader() {
+	$("#nav").html("");
+	$("#final").html("");
 	$("#form-thing").attr("style", "display:none;");
 	$("#search-btn").attr("style", "display:none;");
 	$("#clear-btn").attr("style", "display:none;");
 	$("#loader").show();
+	$("#nav, #final").hide()
 }
 
-function getImagesFinal() {
-	clearInterval(window.interval);
-	console.log("parsing HTML");
-	$("a:contains('Image Only')").each(function(key, value) {
-		$("#final").append("<img class='image' src='"+value.href+"'>");
-	});
-	console.log("Displaying");
-	$("#loader").attr("style", "display:none;text-align:center;");
-	if($("#final").html().trim()==="") {
-		$("#final").html("<h2 style='text-align:center;'>No Results for '"+$("#search").val()+"'</h2>");
-		$("#nav").html("<div style='text-align:center;margin-top:20px;width:100%'><button class='btn btn-default btn-lg btn-block' onclick='resetPage()'>Back</button></div>");
-	}
-	$("#final").show();
-	$("#nav").show();
-}
+/* ready */
+$("#search").prop("disabled", false);
+$("#search").keypress(function(e) {
+		if(e.which == 13) {
+				getImages($("#search").val(), 1);
+		}
+});

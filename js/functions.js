@@ -2,9 +2,15 @@ function getImages(search, page) {
 	loader();
 
 	/* replace spaces with dashes */
+	hash = search+"/"+page;
 	search = search.replace(" ", "_")
 
+	// set the hash
+	window.location.hash = hash;
+
+	console.log("Term: "+search)
 	console.log("Page: "+page)
+	console.log("Hash is now: "+hash);
 	console.log("Communicating with the API.")
 
 	$.get("http://192.241.220.134:3000/search/"+search+"/"+page, function(data) {
@@ -67,7 +73,21 @@ function loader() {
 /* ready */
 $("#search").prop("disabled", false);
 $("#search").keypress(function(e) {
-		if(e.which == 13) {
-				getImages($("#search").val(), 1);
-		}
+	if(e.which == 13) {
+		getImages($("#search").val(), 1);
+	}
+});
+
+var hash = $(location).attr('hash');
+if(hash !== "") {
+	var spl = hash.split('/');
+	console.log(spl);
+	getImages(spl[0].replace('#', ''), spl[1]);
+}
+
+// back button support
+$(window).on('hashchange', function() {
+	if($(location).attr('hash')==="") {
+		resetPage();
+	}
 });

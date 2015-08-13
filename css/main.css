@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
 .image {
 	width:  100%;
 	height: auto;
@@ -35,7 +36,31 @@ a:hover,
 
 #search-btn,
 #clear-btn {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size:15px;
+	min-height:40px;
+	border-radius: 0;
 	min-width:100px;
+}
+
+#search-btn {
+	background-color:#43AC6A;
+}
+
+#clear-btn {
+	background-color:#CECECE;
+	border-color:#ADADAD;
+}
+
+#search,
+.input-group-addon {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 400;
+	font-size:15px;
+	min-height: 40px;
+	color:#6F6F6F;
+	border-radius:0 !important;
 }
 
 #search:focus {

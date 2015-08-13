@@ -2,12 +2,18 @@ function getImages(search, page) {
 	loader();
 
 	/* replace spaces with dashes */
+	hash = search+"/"+page;
 	search = search.replace(" ", "_")
 
+	// set the hash
+	window.location.hash = hash;
+
+	console.log("Term: "+search)
 	console.log("Page: "+page)
+	console.log("Hash is now: "+hash);
 	console.log("Communicating with the API.")
 
-	$.get("https://api.jaredallard.me:3443/search/"+search+"/"+page, function(data) {
+	$.get("http://192.241.220.134:3000/search/"+search+"/"+page, function(data) {
 		if (data.success !== true) {
 			$("#final").html("<h2 class='error'>"+data.message+"</h2>");
 			$("#nav").html("<div class='nav-wrapper'><button class='btn btn-default btn-lg btn-block' onclick='resetPage()'>Back</button></div>");
@@ -67,7 +73,21 @@ function loader() {
 /* ready */
 $("#search").prop("disabled", false);
 $("#search").keypress(function(e) {
-		if(e.which == 13) {
-				getImages($("#search").val(), 1);
-		}
+	if(e.which == 13) {
+		getImages($("#search").val(), 1);
+	}
+});
+
+var hash = $(location).attr('hash');
+if(hash !== "") {
+	var spl = hash.split('/');
+	console.log(spl);
+	getImages(spl[0].replace('#', ''), spl[1]);
+}
+
+// back button support
+$(window).on('hashchange', function() {
+	if($(location).attr('hash')==="") {
+		resetPage();
+	}
 });

@@ -13,7 +13,7 @@ function getImages(search, page) {
 	console.log("Hash is now: "+hash);
 	console.log("Communicating with the API.")
 
-	$.get("https://jaredallard.me:3443/search/"+search+"/"+page, function(data) {
+	$.get("https://api.jaredallard.me:3443/search/"+search+"/"+page, function(data) {
 		if (data.success !== true) {
 			$("#final").html("<h2 class='error'>"+data.message+"</h2>");
 			$("#nav").html("<div class='nav-wrapper'><button class='btn btn-default btn-lg btn-block' onclick='resetPage()'>Back</button></div>");

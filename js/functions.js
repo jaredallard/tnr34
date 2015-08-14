@@ -3,6 +3,11 @@ function getImages(search, page) {
 
 	/* replace spaces with dashes */
 	hash = search+"/"+page;
+
+	if(page === undefined) {
+		page = 1; // failsafe
+	}
+
 	search = search.replace(" ", "_")
 
 	// set the hash
